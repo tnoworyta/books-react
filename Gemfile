@@ -57,3 +57,8 @@ gem 'responders'
 gem 'react_on_rails', '~> 6'
 
 gem 'mini_racer', platforms: :ruby
+
+group :development, :test do
+  gem 'pry-rails', '~> 0.3.2'
+  gem 'pry-remote'
+end
