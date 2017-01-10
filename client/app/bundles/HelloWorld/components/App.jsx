@@ -1,12 +1,13 @@
 import React from 'react'
-
-import HelloWorldContainer from '../containers/HelloWorldContainer';
-import BookListContainer from '../containers/BookListContainer';
+import Footer from './Footer'
+import AddTodo from '../containers/AddTodo'
+import VisibleTodoList from '../containers/VisibleTodoList'
 
 const App = () => (
   <div>
-    <HelloWorldContainer />
-    <BookListContainer />
+    <AddTodo />
+    <VisibleTodoList />
+    <Footer />
   </div>
 );
 
