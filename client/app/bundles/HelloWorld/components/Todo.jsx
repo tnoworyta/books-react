@@ -7,7 +7,7 @@ style={{
   textDecoration: completed ? 'line-through' : 'none'
 }}
 >
-{text} <a onClick={removeOnClick}>Remove</a>
+{text} <a onClick={removeOnClick}>[X remove]</a>
 </li>
 )
 
