@@ -10,8 +10,12 @@ export default class BookList extends Component {
   }
 
   componentDidMount() {
-    $.getJSON('/api/v1/books.json', (response) => {
-      this.setState({ books: response });
+    $.ajax({
+      url: '/api/v1/books',
+      type: 'GET',
+      success: (response) => {
+        this.setState({ books: response.data.map(((b) => { return Object.assign(b.attributes, {id: b.id}) })) });
+      }
     });
   }
 
@@ -22,6 +26,10 @@ export default class BookList extends Component {
 
   handleDelete(id) {
     $.ajax({
+      headers: {
+        'Accept': 'application/vnd.api+json',
+        'Content-Type': 'application/vnd.api+json'
+      },
       url: `/api/v1/books/${id}`,
       type: 'DELETE',
       success: (response) => {

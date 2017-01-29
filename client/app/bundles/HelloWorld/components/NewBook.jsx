@@ -3,19 +3,27 @@ import React, { Component } from 'react';
 export default class NewBook extends Component {
   handleClick() {
     $.ajax({
+      headers: {
+        'Accept': 'application/vnd.api+json',
+        'Content-Type': 'application/vnd.api+json'
+      },
       url: '/api/v1/books',
       type: 'POST',
-      data: {
-        book: {
-          author: this.refs.author.value,
-          title: this.refs.title.value,
-          year: this.refs.year.value
+      data: JSON.stringify({
+        data: {
+          type: 'books',
+          attributes: {
+            author: this.refs.author.value,
+            title: this.refs.title.value,
+            year: this.refs.year.value
+          }
         }
-      }, success: (book) => {
+      }),
+      success: (book) => {
         this.refs.author.value = '';
         this.refs.title.value = '';
         this.refs.year.value = '';
-        this.props.handleSubmit(book);
+        this.props.handleSubmit(Object.assign(book.data.attributes, { id: book.data.id }));
       }
     });
   }

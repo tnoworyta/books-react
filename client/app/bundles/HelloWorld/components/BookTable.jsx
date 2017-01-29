@@ -11,6 +11,7 @@ export default class BookTable extends Component {
         <tr key={book.id}>
           <td>{book.author}</td>
           <td>{book.title}</td>
+          <td>{book.year}</td>
           <td><button onClick={this.handleDelete.bind(this, book.id)} >Delete</button></td>
         </tr>
       )
