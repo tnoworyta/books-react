@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import BookTable from '../components/BookTable';
-import NewBook from '../components/NewBook';
 
 export default class BookList extends Component {
   constructor(props) {
@@ -49,7 +48,6 @@ export default class BookList extends Component {
     return(
       <div>
         <BookTable books={this.state.books} handleDelete={this.handleDelete.bind(this)} />
-        <NewBook handleSubmit={this.handleSubmit.bind(this)} />
       </div>
     );
   }

@@ -23,7 +23,8 @@ export default class NewBook extends Component {
         this.refs.author.value = '';
         this.refs.title.value = '';
         this.refs.year.value = '';
-        this.props.handleSubmit(Object.assign(book.data.attributes, { id: book.data.id }));
+        this.props.router.push('/books');
+        //this.props.handleSubmit(Object.assign(book.data.attributes, { id: book.data.id }));
       }
     });
   }
