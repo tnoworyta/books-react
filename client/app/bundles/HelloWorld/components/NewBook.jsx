@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
+import fetch from 'node-fetch';
 
 export default class NewBook extends Component {
   handleClick() {
-    $.ajax({
+    fetch(`http://${window.location.href.split('/')[2]}/api/v1/books`, {
+      method: 'POST',
       headers: {
         'Accept': 'application/vnd.api+json',
         'Content-Type': 'application/vnd.api+json'
       },
-      url: '/api/v1/books',
-      type: 'POST',
-      data: JSON.stringify({
+      body: JSON.stringify({
         data: {
           type: 'books',
           attributes: {
@@ -18,15 +18,16 @@ export default class NewBook extends Component {
             year: this.refs.year.value
           }
         }
-      }),
-      success: (book) => {
-        this.refs.author.value = '';
-        this.refs.title.value = '';
-        this.refs.year.value = '';
-        this.props.router.push('/books');
-        //this.props.handleSubmit(Object.assign(book.data.attributes, { id: book.data.id }));
-      }
-    });
+      })
+    })
+      .then(res => this.handleCreate())
+  }
+
+  handleCreate() {
+    this.refs.author.value = '';
+    this.refs.title.value = '';
+    this.refs.year.value = '';
+    this.props.router.push('/books');
   }
 
   render() {

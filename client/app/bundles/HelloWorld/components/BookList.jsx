@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import fetch from 'node-fetch';
 
 import BookTable from '../components/BookTable';
 
@@ -9,13 +10,9 @@ export default class BookList extends Component {
   }
 
   componentDidMount() {
-    $.ajax({
-      url: '/api/v1/books',
-      type: 'GET',
-      success: (response) => {
-        this.setState({ books: response.data.map(((b) => { return Object.assign(b.attributes, {id: b.id}) })) });
-      }
-    });
+    fetch(`http://${window.location.href.split('/')[2]}/api/v1/books`)
+      .then(res => res.json())
+      .then(json => this.setState({ books: json.data.map(((b) => { return Object.assign(b.attributes, {id: b.id}) })) }));
   }
 
   handleSubmit(book) {
@@ -24,17 +21,14 @@ export default class BookList extends Component {
   }
 
   handleDelete(id) {
-    $.ajax({
+    fetch(`http://${window.location.href.split('/')[2]}/api/v1/books/${id}`, {
+      method: 'DELETE',
       headers: {
         'Accept': 'application/vnd.api+json',
         'Content-Type': 'application/vnd.api+json'
-      },
-      url: `/api/v1/books/${id}`,
-      type: 'DELETE',
-      success: (response) => {
-        this.removeItemClient(id);
       }
-    });
+    })
+      .then(res => this.removeItemClient(id))
   }
 
   removeItemClient(id) {

@@ -39,15 +39,16 @@ const config = {
     loaders: [
       {
         test: require.resolve('react'),
-        loader: 'imports?shim=es5-shim/es5-shim&sham=es5-shim/es5-sham',
+        loader: 'imports?shim=es5-shim/es5-shim&sham=es5-shim/es5-sham'
       },
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
-    ],
-  },
+      { test: /\.json$/, loader: 'json-loader'}
+    ]
+  }
 };
 
 module.exports = config;
