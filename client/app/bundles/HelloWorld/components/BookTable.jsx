@@ -12,10 +12,22 @@ export default class BookTable extends Component {
           <td>{book.author}</td>
           <td>{book.title}</td>
           <td>{book.year}</td>
-          <td><button onClick={this.handleDelete.bind(this, book.id)} >Delete</button></td>
+          <td><button onClick={this.handleDelete.bind(this, book.id)} className='btn btn-secondary'>Delete</button></td>
         </tr>
       )
     });
-    return(<table><tbody>{bookRows}</tbody></table>);
+    return(
+      <table className='table'>
+        <thead>
+          <tr>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Year</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>{bookRows}</tbody>
+      </table>
+    );
   }
 }

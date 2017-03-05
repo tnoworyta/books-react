@@ -9,4 +9,6 @@ Rails.application.routes.draw do
       jsonapi_resources :chapters
     end
   end
+
+  match '*path' => redirect('/'), via: :get
 end
