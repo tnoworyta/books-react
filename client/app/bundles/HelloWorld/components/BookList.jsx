@@ -20,6 +20,10 @@ export default class BookList extends Component {
     this.setState({ books: newState })
   }
 
+  handleEdit(id) {
+
+  }
+
   handleDelete(id) {
     fetch(`http://${window.location.href.split('/')[2]}/api/v1/books/${id}`, {
       method: 'DELETE',
@@ -41,7 +45,7 @@ export default class BookList extends Component {
   render() {
     return(
       <div>
-        <BookTable books={this.state.books} handleDelete={this.handleDelete.bind(this)} />
+        <BookTable books={this.state.books} handleEdit={this.handleEdit.bind(this)} handleDelete={this.handleDelete.bind(this)} />
       </div>
     );
   }

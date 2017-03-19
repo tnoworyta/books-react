@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 
 export default class BookTable extends Component {
   handleDelete(id) {
@@ -12,6 +13,7 @@ export default class BookTable extends Component {
           <td>{book.author}</td>
           <td>{book.title}</td>
           <td>{book.year}</td>
+          <td><Link to={`/books/${book.id}/edit`} className='btn btn-primary'>Edit</Link></td>
           <td><button onClick={this.handleDelete.bind(this, book.id)} className='btn btn-secondary'>Delete</button></td>
         </tr>
       )
