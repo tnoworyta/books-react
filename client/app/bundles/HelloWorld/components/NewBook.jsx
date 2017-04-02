@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import fetch from 'node-fetch';
+import Joi from 'joi';
 
 export default class NewBook extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ export default class NewBook extends Component {
   }
 
   handleChange(e) {
-    e.target.classList.add('active');
+    e.target.classList.add('valid');
 
     this.setState({
       [e.target.name]: e.target.value
@@ -29,12 +30,14 @@ export default class NewBook extends Component {
     let isFormValid = true;
 
     inputs.forEach(input => {
-      input.classList.add('active');
-
       const isInputValid = this.showInputError(input.name);
 
       if (!isInputValid) {
         isFormValid = false;
+        input.classList.add('invalid');
+      } else {
+        input.classList.remove('invalid');
+        input.classList.add('valid');
       }
     });
 
@@ -43,24 +46,26 @@ export default class NewBook extends Component {
 
   showInputError(refName) {
     const field = this.refs[refName];
-    const validity = field.validity;
-    const label = document.getElementById(`${refName}Label`).textContent;
     const error = document.getElementById(`${refName}Error`);
-    if (!validity.valid) {
-      if (validity.valueMissing) {
-        error.textContent = `${label} is a required field`;
-      } else if (validity.typeMismatch) {
-        error.textContent = `${label} should be a valid email address`;
-      } else if (validity.rangeOverflow) {
-        error.textContent = `${label} should be less than ${field.max}`;
-      } else if (validity.rangeUnderflow) {
-        error.textContent = `${label} should be greater than ${field.min}`;
-      }
-      return false;
-    }
 
-    error.textContent = '';
-    return true;
+    const schema = Joi.object().keys({
+      author: Joi.string().alphanum().min(3).max(10),
+      title: Joi.string().alphanum().min(3).max(10),
+      year: Joi.number().integer().min(1900).max(2017)
+    });
+
+    const validatedBook = {};
+    validatedBook[refName] = field.value;
+
+    const result = Joi.validate(validatedBook, schema);
+
+    if(result.error) {
+      error.textContent = result.error.message.match(/\[([^[]+)\]/)[1];
+      return false;
+    } else {
+      error.textContent = '';
+      return true
+    }
   }
 
   handleSubmit(e) {
@@ -108,7 +113,7 @@ export default class NewBook extends Component {
               name='author'
               placeholder='Enter the name of the author'
               onChange={ this.handleChange }
-              required/>
+              />
             <div className='error' id='authorError'></div>
           </div>
           <div className='form-group'>
@@ -120,7 +125,7 @@ export default class NewBook extends Component {
               name='title'
               placeholder='Enter the title'
               onChange={ this.handleChange }
-              required/>
+              />
             <div className='error' id='titleError'></div>
           </div>
           <div className='form-group'>
@@ -130,11 +135,9 @@ export default class NewBook extends Component {
               type='number'
               ref='year'
               name='year'
-              min='1900'
-              max='2017'
               placeholder='Enter the year'
               onChange={ this.handleChange }
-              required/>
+              />
             <div className='error' id='yearError'></div>
           </div>
           <button

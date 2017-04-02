@@ -46,8 +46,16 @@ const config = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
-      { test: /\.json$/, loader: 'json-loader'}
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
+      }
     ]
+  },
+  node: {
+    net: 'empty',
+    tls: 'empty',
+    dns: 'empty'
   }
 };
 
