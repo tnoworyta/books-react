@@ -1,4 +1,4 @@
-# books-react
+# books-react v1
 
 * Ruby version: 2.3.1
 
