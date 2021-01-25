@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import fetch from 'node-fetch';
 
 import BookTable from '../components/BookTable';
-import NewBook from '../components/NewBook';
 
 export default class BookList extends Component {
   constructor(props) {
@@ -10,9 +10,9 @@ export default class BookList extends Component {
   }
 
   componentDidMount() {
-    $.getJSON('/api/v1/books.json', (response) => {
-      this.setState({ books: response });
-    });
+    fetch(`http://${window.location.href.split('/')[2]}/api/v1/books`)
+      .then(res => res.json())
+      .then(json => this.setState({ books: json.data.map(((b) => { return Object.assign(b.attributes, {id: b.id}) })) }));
   }
 
   handleSubmit(book) {
@@ -20,14 +20,19 @@ export default class BookList extends Component {
     this.setState({ books: newState })
   }
 
+  handleEdit(id) {
+
+  }
+
   handleDelete(id) {
-    $.ajax({
-      url: `/api/v1/books/${id}`,
-      type: 'DELETE',
-      success: (response) => {
-        this.removeItemClient(id);
+    fetch(`http://${window.location.href.split('/')[2]}/api/v1/books/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/vnd.api+json',
+        'Content-Type': 'application/vnd.api+json'
       }
-    });
+    })
+      .then(res => this.removeItemClient(id))
   }
 
   removeItemClient(id) {
@@ -40,8 +45,7 @@ export default class BookList extends Component {
   render() {
     return(
       <div>
-        <BookTable books={this.state.books} handleDelete={this.handleDelete.bind(this)} />
-        <NewBook handleSubmit={this.handleSubmit.bind(this)} />
+        <BookTable books={this.state.books} handleEdit={this.handleEdit.bind(this)} handleDelete={this.handleDelete.bind(this)} />
       </div>
     );
   }

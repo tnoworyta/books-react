@@ -1,0 +1,7 @@
+curl -i -H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json' -X POST -d '{"data": {"type":"books", "attributes":{"author":"John Doe", "title":"Does autobiography"}}}' http://localhost:3000/books
+
+curl -i -H "Accept: application/vnd.api+json" -H 'Content-Type:application/vnd.api+json' -X POST -d '{ "data": { "type": "chapters", "relationships": { "book": { "data": { "type": "books", "id": "38" } } }, "attributes": { "title": "The Beginning", "body": "Some text" } } }' http://localhost:3000/chapters
+
+curl -i -H "Accept: application/vnd.api+json" "http://localhost:3000/books"
+
+curl -i -H "Accept: application/vnd.api+json" "http://localhost:3000/books?include=chapters"

@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
-  root 'books#index'
+  root 'main#index'
+
+  resources :main, only: :index
 
   namespace :api do
     namespace :v1 do
-      resources :books, only: [:index, :create, :destroy, :update]
+      jsonapi_resources :books
+      jsonapi_resources :chapters
     end
   end
 
-  resources :books, only: :index
+  match '*path' => redirect('/'), via: :get
 end

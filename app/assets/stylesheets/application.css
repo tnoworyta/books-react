@@ -13,3 +13,42 @@
  *= require_tree .
  *= require_self
  */
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    font-family: Helvetica Neue;
+}
+
+.container {
+    width: 500px;
+}
+
+.note {
+    color: gray;
+    margin: 8px 0;
+}
+
+input.active:valid {
+    box-shadow: 0 0 5px 1px green;
+}
+
+input.active:invalid {
+    box-shadow: 0 0 5px 1px red;
+}
+
+input.valid {
+    box-shadow: 0 0 5px 1px green;
+}
+
+input.invalid {
+    box-shadow: 0 0 5px 1px red;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
